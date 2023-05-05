@@ -1,12 +1,22 @@
 package pro.sky.java.test.accountingautomation.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
 import java.util.Objects;
 import java.util.Set;
-
+@Entity
 public class Socks {
+
+    @Id
+    @GeneratedValue
+    private long quantity;
+
     private String color;
     private int cottonPart;
-    private Long quantity;
+
+
 
     public Socks(String color, int cottonPart, Long quantity) {
         this.color = color;

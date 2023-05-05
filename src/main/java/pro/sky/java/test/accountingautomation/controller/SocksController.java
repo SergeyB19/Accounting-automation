@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pro.sky.java.test.accountingautomation.model.Socks;
+import pro.sky.java.test.accountingautomation.repository.SocksRepository;
 import pro.sky.java.test.accountingautomation.service.SocksService;
 
 import java.util.Collection;
@@ -13,9 +14,12 @@ import java.util.Collection;
 public class SocksController {
 
     private final SocksService socksService;
+    private final SocksRepository socksRepository;
 
-    public SocksController(SocksService socksService) {
+    public SocksController(SocksService socksService,
+                           SocksRepository socksRepository) {
         this.socksService = socksService;
+        this.socksRepository = socksRepository;
     }
 
     @GetMapping(path = "{quantity}")
@@ -28,8 +32,8 @@ public class SocksController {
     }
 
     @GetMapping
-    public ResponseEntity<Collection<Socks>> getAllSocks() {
-        return ResponseEntity.ok(socksService.getAllSocks());
+    public <Collection<Socks>> getAllSocks() {
+        return socksRepository.findAll();
     }
 
     @PostMapping
@@ -47,7 +51,8 @@ public class SocksController {
     }
 
     @DeleteMapping(path = "{quantity}")
-    public Socks deleteSocks(@PathVariable Long quantity) {
-        return socksService.deleteSocks(quantity);
+    public ResponseEntity deleteSocks(@PathVariable Long quantity) {
+        socksService.deleteSocks(quantity);
+        return ResponseEntity.ok().build();
     }
 }
